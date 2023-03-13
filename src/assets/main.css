@@ -1,0 +1,205 @@
+* {
+  margin: 0;
+  padding: 0;
+  font-family: PingFang SC,DFPKingGothicGB-Medium,sans-serif;
+}
+
+.live_player_wrapper {
+  position: relative;
+  overflow-y: hidden;
+  height: 100%;
+}
+
+.video-box {
+  position: relative;
+  margin: 0 auto;
+  height: 100%;
+}
+
+video {
+  width: 100%;
+  height: 100%;
+}
+
+#video-background {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  width: 100%;
+  height: 100%;
+  filter: blur(50px);
+}
+
+.tool {
+  width: 100%;
+  height: 60px;
+  background: linear-gradient(0deg, rgba(0, 0, 0, .6), rgba(0, 0, 0, .02));
+  position: absolute;
+  bottom: -60px;
+  transition: all ease .5s;
+  display: flex;
+  justify-content: space-between;
+}
+
+.tool .left,
+.tool .right {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+.tool img {
+  width: 25px;
+  cursor: pointer;
+}
+
+.ani {
+  transform: translateY(-60px);
+}
+
+.volume_wrapper {
+  position: relative;
+  width: 25px;
+  height: 25.83px;
+}
+
+.show_slide .slider_bg {
+  visibility: visible !important;
+}
+
+.slider_bg {
+  position: absolute;
+  width: 35px;
+  height: 150px;
+  bottom: 22px;
+  padding-bottom: 20px;
+  visibility: hidden;
+}
+
+.volume_wrapper .slider {
+  width: 100%;
+  height: 130px;
+  background-color: rgba(50, 52, 65);
+  position: absolute;
+  border-radius: 4px;
+  display: flex;
+  justify-content: center;
+  padding: 15px 0;
+}
+
+.slider_bar {
+  width: 5px;
+  cursor: pointer;
+  border-radius: 1rem;
+  position: relative;
+  display: flex;
+  align-items: center;
+  flex-direction: column-reverse;
+  background-color: rgb(112, 112, 121);
+}
+
+.slider_color {
+  width: 5px;
+  position: absolute;
+  z-index: 100;
+  border-radius: inherit;
+  background: rgb(230, 60, 72);
+}
+
+.slider_btn {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #fff;
+  position: absolute;
+  z-index: 200;
+}
+
+.slider_tooltip {
+  position: absolute;
+  height: 1.5rem;
+  width: 2rem;
+  border-radius: .6rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 12px;
+  color: #fff;
+  opacity: 0;
+  transition: opacity .3s ease;
+  left: 25px;
+  background-color: rgba(50, 52, 65);
+}
+
+.slider_btn:hover~.slider_tooltip {
+  opacity: 1;
+}
+
+.voice_tip, .center_play_btn {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  top: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+:root {
+  --voice_btn_group_height: 60px;
+}
+.voice_tip .voice_btn_group {
+  width: 250px;
+  height: var(--voice_btn_group_height);
+  background-color: rgba(0, 0, 0, .5);
+  border-radius: 30px;
+  color: #fff;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+}
+.voice_tip .voice_btn_group img{
+  height: 25px;
+}
+.voice_btn {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  cursor: pointer;
+}
+
+.definition_wrapper {
+  color: #fff;
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+  position: relative;
+}
+.definition_wrapper .definition_bg {
+  padding-bottom: 20px;
+  position: absolute;
+  bottom: 8px;
+  visibility: hidden;
+}
+.definition_wrapper .definition_list {
+  background-color: rgba(50, 52, 65);
+  padding: 10px;
+  border-radius: 4px;
+  width: 35px;
+  text-align: center;
+  line-height: 25px;
+}
+.definition_wrapper.show_pan .definition_bg {
+  visibility: visible!important;
+}
+.definition_wrapper .definition_list .option {
+  cursor: pointer;
+}
+.definition_wrapper .definition_list .option:hover {
+  color: #ccc;
+}
