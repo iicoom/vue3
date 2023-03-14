@@ -203,3 +203,8 @@ video {
 .definition_wrapper .definition_list .option:hover {
   color: #ccc;
 }
+
+#player-container-id {
+  width: 100%;
+  height: 100%;
+}

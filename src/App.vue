@@ -4,6 +4,9 @@ import type { Ref } from 'vue'
 import flvjs from 'flv.js'
 // @ts-ignore
 import { dragElement } from './drag'
+import TCPlayer from 'tcplayer.js';
+import 'tcplayer.js/dist/tcplayer.min.css';
+
 
 
 
@@ -166,18 +169,24 @@ function changeDefinition(val: string) {
 onMounted(() => {
   console.log(`the component is now mounted.`)
   // TODO remove
-  init('https://pull-flv-l26.douyincdn.com/third/stream-112655515716420070_sd.flv?expire=64183817&sign=737a4b2221d977416d20f9fa205aa86c&session_id=037-2023031318402344330B2563D7270D64D9&abr_pts=-1800')
+  // init('https://pull-flv-l26.douyincdn.com/third/stream-112655515716420070_sd.flv?expire=64183817&sign=737a4b2221d977416d20f9fa205aa86c&session_id=037-2023031318402344330B2563D7270D64D9&abr_pts=-1800')
 
   window.addEventListener('watchWebsocket',(options: any) => {
     console.log('options', options)
     init(options.detail.url)
   })
+
+  let url = 'https://cn-sdqd-cu-01-11.bilivideo.com/live-bvc/733647/live_1914445316_49884334.flv?expires=1678769074&pt=html5&deadline=1678769074&len=0&oi=1928490074&platform=html5&qn=0&trid=1000c68cdf9a93a04a28856ea1786b9bfc35&uipk=100&uipv=100&nbs=1&uparams=cdn,deadline,len,oi,platform,qn,trid,uipk,uipv,nbs&cdn=cn-gotcha01&upsig=25001f82b831c18b7b7e113da2a26d82&sk=657e1ac1e010c75aa8c2a995fb0e48a5&p2p_type=0&src=57345&sl=1&free_type=0&mid=511586681&sid=cn-sdqd-cu-01-11&chash=1&bmt=1&sche=ban&score=11&pp=rtmp&machinezone=ylf&source=onetier&trace=9&site=c948543bba8bc5a7afa96f0493d15bcb&order=1'
+  var player = TCPlayer('player-container-id', {}); // player-container-id 为播放器容器 ID，必须与 html 中一致
+  player.src(url); // url 播放地址
+
 })
 
 </script>
 
 <template>
   <div class="live_player_wrapper">
+    <!--
     <canvas id="video-background"></canvas>
     <div class="video-box" @click="togglePlay">
       <video id="videoElement" muted autoplay width="100%" height="100%"></video>
@@ -230,6 +239,8 @@ onMounted(() => {
     <div v-if="!playing" class="center_play_btn" @click="handlePlay">
       <img src="./play.png" alt="" id="pause">
     </div>
+    -->
+    <video id="player-container-id" preload="auto" playsinline webkit-playsinline></video>
   </div>
 </template>
 
