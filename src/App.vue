@@ -17,7 +17,7 @@ function init(sources: any) {
     multiResolution:{
       sources,
       labels:{
-        'SD':'标清','HD':'高清','FHD':'超清'
+        'SD':'标清','HD':'高清','FHD':'原画'
       },
       showOrder:['SD','HD','FHD'],
       defaultRes: 'SD'
@@ -69,6 +69,10 @@ const vDrag = {
     if (binding.value) {
       let dragBox = el
       dragBox.onmousedown = (e: any) => {
+        // console.log(e.target.className)
+        // @ts-ignore
+        if (e.target.className === 'vjs-tech') document.querySelector('#player-container-id_html5_api')?.play()
+        if (e.target.className !== 'vjs-tech') return
         e.preventDefault();
         let event = e || window.event;
         //算出鼠标相对元素的位置
@@ -129,13 +133,27 @@ function handleDragVideo() {
   }
 }
 
+function handleDivScroll(e: any) {
+  let scrollTop = e.target.scrollTop
+  const videoDiv = document.getElementById('player-container-id');
+
+  if (scrollTop > 500) {
+    videoDiv?.setAttribute('style', 'height: 225px !important');
+    dragVideo.value = true;
+  } else if (scrollTop <= 500) {
+    videoDiv?.setAttribute('style', '');
+    videoDiv?.parentElement?.setAttribute('style', '');
+    dragVideo.value = false;
+  }
+}
+
 function handleClick(e: any) {
   // console.log(e.target.className)
   if (e.target.className === 'live_player_wrapper drag-video') {
-    document.documentElement.scrollTop = 0
+    // @ts-ignore
+    document.getElementById('live_left').scrollTop = 0
     dragVideo.value = false
   }
-  if (dragVideo.value) player.value.play()
 }
 
 
@@ -144,7 +162,7 @@ onMounted(() => {
 
   // 监听调用方事件
   window.addEventListener('watchWebsocket',(options: any) => {
-    console.log('options', options)
+    // console.log('options', options)
     if (!player.value) {
       init(options.detail)
     } else {
@@ -153,7 +171,8 @@ onMounted(() => {
   })
 
   // 小窗处理逻辑
-  window.addEventListener('scroll', handleDragVideo);
+  // window.addEventListener('scroll', handleDragVideo);
+  document.querySelector('#live_left')?.addEventListener('scroll', handleDivScroll)
 
   // DEBUG 
   // const sources = {
