@@ -10,6 +10,7 @@
     "type-check": "vue-tsc --noEmit"
   },
   "dependencies": {
+    "element-plus": "^2.3.5",
     "flv.js": "^1.6.2",
     "tcplayer.js": "^4.7.0",
     "vue": "^3.2.47",
