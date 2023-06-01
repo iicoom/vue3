@@ -5,6 +5,8 @@ import type { Ref } from 'vue'
 import TCPlayer from 'tcplayer.js';
 import 'tcplayer.js/dist/tcplayer.min.css';
 import vueDanmaku from 'vue3-danmaku'
+import { ElSlider, ElPopover } from 'element-plus'
+import 'element-plus/es/components/slider/style/css'
 
 const player: Ref<any> = ref(null)
 const res: Ref<string> = ref('SD')
@@ -49,11 +51,12 @@ const popStyle = {
   padding: '10px 15px 30px 15px',
   border: 'none',
   color: '#ccc',
-  zIndex: '100001'
+  zIndex: 100001
 }
 
 function receiveDan(val: any) {
-  danmakuRef.value?.insert(val)
+  // danmakuRef.value?.insert(val)
+  danmakuRef.value?.push(val)
 }
 
 // method
@@ -193,7 +196,7 @@ function handleDivScroll(e: any) {
   }
 }
 
-// 和PC相关联
+// 和PC相关联 在这里调试会报错
 function handleClick(e: any) {
   // console.log(e.target.className)
   if (e.target.className === 'live_player_wrapper drag-video') {
@@ -210,6 +213,9 @@ onMounted(() => {
   // 监听调用方事件
   window.addEventListener('watchWebsocket',(options: any) => {
     // console.log('options', options)
+    danmakuRef.value?.resize()
+    danmakuRef.value?.stop()
+    danmakuRef.value?.play()
     if (!player.value) {
       init(options.detail)
       handlePlayer()
@@ -263,12 +269,18 @@ function handlePlayer() {
   // 重写全屏按钮 处理全屏事件
   const new_element: any = fullScreenBtn?.cloneNode(true);
   parentNode?.replaceChild(new_element, fullScreenBtn);
+  const videoDiv = document.getElementById('player-container-id');
   new_element?.addEventListener('click', function() {
     if (!document.fullscreenElement) {
       target?.requestFullscreen().catch(err => {
         alert(`Error attempting to enable full-screen mode: ${err.message} (${err.name})`);
       });
       new_element.classList.add('on')
+
+      // 处理小窗全屏
+      videoDiv?.setAttribute('style', '');
+      videoDiv?.parentElement?.setAttribute('style', '');
+      dragVideo.value = false;
     } else {
       document.exitFullscreen();
       new_element.classList.remove('on')
@@ -277,7 +289,7 @@ function handlePlayer() {
   document.addEventListener("fullscreenchange", function() {
     // danmakuRef.value.hide()
     // danmakuRef.value.show()
-    // danmakuRef.value.resize()
+    danmakuRef.value.resize()
     if (document.fullscreenElement) {
       // console.log(`Element: ${document.fullscreenElement.id} entered fullscreen mode.`);
     } else {
@@ -337,7 +349,7 @@ function handleSave() {
     <video id="player-container-id" preload="auto" playsinline webkit-playsinline></video>
     <vue-danmaku 
       v-model:danmus="danmus" 
-      :loop="true"
+      :loop="false"
       :channels="channels"
       :fontSize="fontSize"
       :speeds="speed"
