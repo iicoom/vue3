@@ -61,7 +61,7 @@ function receiveDan(val: any) {
 
 // method
 function init(sources: any) {
-
+  console.log('=========================', sources)
   player.value = TCPlayer('player-container-id', {
     multiResolution:{
       sources,
@@ -89,6 +89,23 @@ function init(sources: any) {
     console.log('【resolutionswitched:】', val)
     res.value = val.data.id
   });
+
+  // 竖版直播背景虚化
+  if (sources.liveType === 2) {
+    var v = <HTMLVideoElement> document.getElementsByTagName("video")[0];
+    var canvas = <HTMLCanvasElement> document.getElementById("video-background");
+    var context = canvas.getContext("2d");
+    var cw = Math.floor(canvas.clientWidth);
+    var ch = Math.floor(canvas.clientHeight);
+    canvas.width = cw;
+    canvas.height = ch;
+    draw(v, context, cw, ch);
+    // @ts-ignore
+    function draw(v, c, w, h) {
+      c.drawImage(v, 0, 0, w, h);
+      setTimeout(draw, 20, v, c, w, h);
+    }
+  }
 
   // player.src(flv); // url 播放地址
 }
@@ -238,6 +255,7 @@ onMounted(() => {
   //   'SD':[
   //     {
   //       src: 'webrtc://5664.liveplay.myqcloud.com/live/5664_harchar1?txSecret=f22a813b284137ed10d3259a7b5c224b&txTime=6403f7bb',
+  //       // src: 'https://dev-liveplay.foundingaz.com/live/dev_fhxn.flv?txSecret=7df288fb7a3838189508d97852e0162a&txTime=64b63c3d',
   //     }
   //   ],
   //   'HD':[
@@ -346,6 +364,7 @@ function handleSave() {
 
 <template>
   <div v-drag="dragVideo" :class="dragVideo?'live_player_wrapper drag-video':'live_player_wrapper'" @mousedown="handleClick">
+    <canvas id="video-background"></canvas>
     <video id="player-container-id" preload="auto" playsinline webkit-playsinline></video>
     <vue-danmaku 
       v-model:danmus="danmus" 
@@ -428,6 +447,7 @@ function handleSave() {
   transform: scale(0.2);
   transform-origin: 100% 0;
   cursor: pointer;
+  z-index: 4;
 }
 @media only screen and (max-width: 768px){
   .drag-video {
@@ -446,6 +466,8 @@ function handleSave() {
   height: 100%;
   top: 0;
   display: none;
+  z-index: 2;
+  pointer-events: none;
 }
 .dan.on {
   display: block;

@@ -30,6 +30,7 @@ video {
   width: 100%;
   height: 100%;
   filter: blur(50px);
+  z-index: 1;
 }
 
 .tool {
@@ -212,4 +213,8 @@ video {
 .el-slider__button {
   width: 12px;
   height: 12px;
+}
+
+.video-js .vjs-tech {
+  z-index: 1;
 }
