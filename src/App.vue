@@ -61,7 +61,6 @@ function receiveDan(val: any) {
 
 // method
 function init(sources: any) {
-  console.log('=========================', sources)
   player.value = TCPlayer('player-container-id', {
     multiResolution:{
       sources,
@@ -106,8 +105,6 @@ function init(sources: any) {
       setTimeout(draw, 20, v, c, w, h);
     }
   }
-
-  // player.src(flv); // url 播放地址
 }
 
 // Custom Directives
@@ -235,7 +232,7 @@ onMounted(() => {
     danmakuRef.value?.play()
     if (!player.value) {
       init(options.detail)
-      handlePlayer()
+      // handlePlayer() // 弹幕功能把这个打开 需要解决的问题 1.聊天发送的图片会在弹幕中展示为url地址
     } else {
       player.value.src(options.detail[res.value][0].src)
     }
